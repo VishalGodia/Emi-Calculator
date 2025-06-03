@@ -1,0 +1,227 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+
+<div class="loanCalwrapper elgCal">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+
+            <!-- Left Column -->
+            <div class="col-md-12 col-lg-6">
+                <h2>
+                    <div id="emiHead">Experience our loans</div>
+                    <p id="emiSubHead">crafted to enhance your life</p>
+                </h2>
+
+
+                <div class="proWrapper">
+                    <div class="progress mx-auto" id="myValue" data-value="100" data-myprogress="100">
+                        <span class="progess-left">
+                            <span class="progress-bar border-primary"></span>
+                        </span>
+                        <span class="progess-right">
+                            <span class="progess-bar border-primary"></span>
+                        </span>
+                        <div
+                            class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                            <div class="proCnt text-uppercase">
+                                Monthly Payable Amount <span class="amt" id="monthlyPayableAmount">₹ 1,83,768</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="proData">
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-md-12 col-lg-6">
+                <div class="calcBox">
+
+                    <div class="form-group mob-hide">
+                        <label>Select Loan Type</label>
+                        <div class="wrapper-dropdown mobWrapper-dropdown" id="dropdown">
+                            <span class="sortText d-none">Sort by</span>
+                            <span class="selected-display cal-select-text" id="destination">Personal Loan</span>
+                            <svg class="arrow" id="drp-arrow2" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M7 14.5l5-5 5 5" stroke="currentColor" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <ul class="dropdown dropdownOptions" id="dropdownMenu">
+                                <li><span class="sortText"></span></li>
+                                <li class="item" value="Personal Loan">Personal Loan</li>
+                                <li class="item" value="Business Loan">Business Loan</li>
+                                <li class="item" value="Loan Against property"> Loan Against Property</li>
+                                <li class="item" value="Machinery Loan">Machinery Loan</li>
+                                <li class="item" value="Other Loans">Other Loans</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h4 class="mt-4" aria-level="3">Loan Amount</h4>
+                    <div class="wrapper Range homeRange d-flex justify-content-between mt-3">
+                        <div id="amountWords">One Lakh</div>
+                        <div class="input-loan-amount">
+                            <input class="text-right rngRgt" type="text" id="loanAmount1" value="₹ 1,00,000"
+                                style="display:block; border-radius: 0 8px 8px 0;"
+                                onkeyup="assignTenure(this); pl_elgigibility_cal();">
+                        </div>
+                    </div>
+
+                    <input type="range" id="loanAmount" step="1000" min="100000" max="6000000" value="100000"
+                        onchange="showPrincipalAmount(); calculateEmi();">
+
+
+                    <div class="rangeData">
+                        <div id="minLoanAmount">₹ 1,00,000</div>
+                        <div id="maxLoanAmount">₹ 60,00,000</div>
+                    </div>
+
+                </div>
+
+                <h4 class="mt-4">Interest Rate</h4>
+                <div class="wrapperRange homeRange">
+                    <div class="input-rate">
+                        <span class="text-right rngRgt pull-right" id="spanRate"
+                            style="display: block; border-radius:0 8px 8px 0;">%</span>
+                        <input type="text" class="text-right rngRgt pull-right" value="2.5" id="interestRate1"
+                            pattern="^\d*(\.\d{0,2})?$" style="width:140px; border-radius: 8px 0 0 8px;"
+                            onkeyup="assignInterest(this); pl_elgigibility_cal();">
+                    </div>
+
+                    <input type="range" id="interestRate" step="0.1"
+                        onchange="showRate(); calculateEmi(); adjustInputSize(this);">
+
+                    <div class="rangeData">
+                        <div id="minInterestRate">2 %</div>
+                        <div id="maxInterestRate">16 %</div>
+                    </div>
+                </div>
+
+                <h4 class="mt-4">Loan Tenure</h4>
+                <div class="wrapperRange homeRange">
+                    <div class="input-month">
+                        <span id="spanMonth" class="text-right rngRgt pull-right"
+                            style="display: block; border-radius: 0 8px 8px 0;">Months</span>
+                        <input class="text-right rngRgt pull-right" type="text" maxlength="2" id="tenure1" value="12"
+                            style="width: 70px; border-radius: 8px 0 0 8px;" oninput="calculateEmi1()"
+                            onblur="validateMinTenure(this.value);">
+                    </div>
+
+                    <input type="range" step="1" id="tenure"
+                        onchange="showTenure(); calculateEmi(); adjustInputSize(this);">
+
+                    <div class="rangeData">
+                        <div id="minTenure">12 Months</div>
+                        <div id="maxTenure">84 Months</div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center loanBtn mt-4">
+                    <a href="#" id="applyLink">
+                        <button class="btn btnWhite apply" id="applyButton" aria-label="Apply for Loan">
+                            Apply Now
+                        </button>
+                    </a>
+                </div>
+
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+    </div> <!-- end container-fluid -->
+</div> <!-- end loanCalwrapper -->
+
+<script>
+    function showTenure() {
+        $('#tenure1').empty();
+        $(document).ready(function(){
+            var tenure = $('#tenure').val();
+            $('#tenure1').val(tenure);
+            $('#spanMonth').css("display", "block");
+        });
+    }
+
+    function showPrincipalAmount(){
+        $('#loanAmount1').empty();
+        $(document).ready(function(){
+            var loanAmount = parseFloat($('#loanAmount').val());
+            $('#loanAmount1').val(loanAmount.toLocaleString('en-IN'));
+        });
+    }
+
+    function showInterestRate(){
+        $('#interestRate1').empty();
+        $(document).ready(function(){
+            var interestRate = parseFloat($('#interestRate').val());
+            $('#interestRate1').val(interestRate.toLocaleString('en-IN'));
+        });
+    }
+
+    function assignTenure(input){
+        $('#tenure').val(0);
+        var value = input.value;
+        var numericValue = value.replace(/[^\d]/g, '');
+        var formattedValue;
+
+        if(numericValue){
+            formattedValue = parseFloat(numericValue);
+        }else{
+            formattedValue = numericValue;
+        }
+
+        $('#tenure1').val(formattedValue);
+        $('#tenure').val(numericValue);
+
+        var max = $('#tenure').attr('max');
+        var min = $('#tenure').attr('min');
+
+        if(numericValue > max){
+            $('#tenure1').val(max);
+        }
+    }
+
+    function assignLoanAmount(input){
+        $('#loanAmount').val(0);
+        
+        var max = parseFloat($('#loanAmount').attr('max'));
+        var min = parseFloat($('#loanAmount').attr('min'));
+
+        var value = input.value;
+        var numericValue = value.replace(/[^\d]/g, '');
+
+        if(numericValue){
+            if(numericValue > max){
+                $('#loanAmount1').val(parseFloat(max).toLocaleString('en-IN'));
+                $('#loanAmount').val(max);
+            }else{
+                var formattedValue = parseFloat(numericValue).toLocaleString('en-IN');
+                $('#loanAmount1').val(formattedValue);
+                $('#loanAmount').val(numericValue);
+            }
+        }
+    }
+
+    function assignInterest(input){
+        $('#interestRate').val(0);
+        
+        var max = parseFloat($('#interestRate').attr('max'));
+        var min = parseFloat($('#interestRate').attr('min'));
+
+        var value = input.value;
+        var numericValue = value.replace(/[^\d]/g, '');
+
+        if(numericValue){
+            if(numericValue > max){
+                $('#interestRate1').val(parseFloat(max).toLocaleString('en-IN'));
+                $('#interestRate').val(max);
+            }else{
+                var formattedValue = parseFloat(numericValue).toLocaleString('en-IN');
+                $('#interestRate1').val(formattedValue);
+                $('#interestRate').val(numericValue);
+            }
+        }
+    }
+
+    
+
+
+</script>
